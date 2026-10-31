@@ -188,16 +188,18 @@ button{font:inherit;color:inherit}
 .mstage.pocket-open .mcard{filter:brightness(.55);transition:filter .4s}
 
 /* ---------- TRACE ---------- */
-.tstage{position:relative;width:min(100%,520px,calc(80vh * 70 / 116));aspect-ratio:70/116;margin:0 auto;border-radius:3px;background:var(--paper);box-shadow:0 1px 0 rgba(27,34,64,.08),0 12px 28px rgba(27,34,64,.14);touch-action:none;cursor:crosshair}
+.tstage{position:relative;width:min(100%,520px,calc(80vh * 80 / 126));aspect-ratio:80/126;margin:0 auto;border-radius:3px;background:var(--paper);box-shadow:0 1px 0 rgba(27,34,64,.08),0 12px 28px rgba(27,34,64,.14);touch-action:none;cursor:crosshair}
 .tstage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .tstage svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.tstage .tnote{position:absolute;left:6%;top:3%;font-family:var(--f-note);font-size:clamp(18px,3.6vw,26px);color:var(--slate);pointer-events:none;transform:rotate(-3deg)}
-.tstage .tscale{position:absolute;right:4%;bottom:2.5%;font-size:12px;font-weight:700;color:var(--slate);pointer-events:none;font-variant-numeric:tabular-nums}
+.tstage .tnote{position:absolute;left:6%;top:1.5%;margin:0;font-family:var(--f-note);font-size:clamp(18px,3.6vw,26px);color:var(--slate);pointer-events:none;transform:rotate(-3deg)}
+.tstage .tscale{position:absolute;right:4%;bottom:1.5%;margin:0;font-size:12px;font-weight:700;color:var(--slate);pointer-events:none;font-variant-numeric:tabular-nums}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{appearance:none;border:1.5px solid var(--rinse);background:var(--paper);border-radius:999px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:40px}
+.chip{appearance:none;border:1.5px solid #C3C8D6;background:transparent;color:var(--slate);border-radius:999px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:40px}
 .chip i{width:18px;height:0;border-top:2.5px solid var(--c);display:block}
 .chip.dash i{border-top-style:dashed}.chip.dot i{border-top-style:dotted}
-.chip[aria-pressed="true"]{background:var(--rinse);color:var(--chalk)}
+.chip[aria-pressed="true"]{background:var(--paper);color:var(--rinse);border:2px solid var(--c);padding:8px 13px}
+.chip[aria-pressed="true"]::after{content:"\2713";font-size:13px;color:var(--c)}
+.chip i{border-top-width:3px}
 
 /* lightbox */
 [hidden]{display:none!important}
@@ -325,11 +327,12 @@ footer svg{height:20px;width:auto}
       <p class="eyebrow">Tracing card · 110 gsm · card 5 of the bundle</p>
       <h2 id="trace-h" class="display">Draw your own pair</h2>
       <p class="lede">Lay a pair of jeans you like flat and draw around them. One square is 5 cm. Then put a Notch cut over your drawing to see where it's roomier or slimmer.</p>
+      <p class="lede" style="margin-top:12px">Want the exact numbers? <a href="../fit.html" style="color:inherit;font-weight:600">Find your size</a> with the same pair.</p>
     </div>
     <div class="stagebox">
       <div class="tstage" id="tstage">
         <canvas id="tcanvas" aria-label="Tracing card. Draw with your finger or mouse."></canvas>
-        <svg id="tover" viewBox="-35 -6 70 116" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+        <svg id="tover" viewBox="-40 -12 80 126" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
         <p class="tnote" id="tnote">my favourite pair</p>
         <p class="tscale">1 square = 5 cm</p>
       </div>
@@ -338,11 +341,11 @@ footer svg{height:20px;width:auto}
       <div class="panel">
         <p class="count">Lay a Notch cut over it</p>
         <div class="chips" role="group" aria-label="Compare with">
-          <button class="chip" type="button" data-cut="st" aria-pressed="false" style="--c:#1B2240"><i></i>Straight</button>
+          <button class="chip" type="button" data-cut="st" aria-pressed="false" style="--c:#E5452F"><i></i>Straight</button>
           <button class="chip dash" type="button" data-cut="wd" aria-pressed="true" style="--c:#3B45D1"><i></i>Wide</button>
-          <button class="chip dot" type="button" data-cut="tp" aria-pressed="false" style="--c:#E5452F"><i></i>Taper</button>
+          <button class="chip dot" type="button" data-cut="tp" aria-pressed="false" style="--c:#7B5BD6"><i></i>Taper</button>
         </div>
-        <p class="hint">All three drawn at W80 Regular. On the site, your numbers redraw them in your size.</p>
+        <p class="hint">Tap a cut to show or hide it. All three are drawn at W80 Regular. The Fit finder redraws them in your size.</p>
         <div class="btns">
           <button class="btn primary" id="tClear" type="button">Clear and draw yours</button>
           <button class="btn" id="tSample" type="button">Show the example</button>
@@ -674,10 +677,10 @@ mRender();
 
 /* ---------- TRACE ---------- */
 var tstage=document.getElementById('tstage'), cv=document.getElementById('tcanvas'), ctx=cv.getContext('2d'), tover=document.getElementById('tover'), tnote=document.getElementById('tnote');
-var VB = {x:-35,y:-6,w:70,h:116};
-var CUTS = { st:{waist:80,hip:106,thigh:64,knee:46,hem:42,col:'#1B2240',dash:''},
+var VB = {x:-40,y:-12,w:80,h:126};
+var CUTS = { st:{waist:80,hip:106,thigh:64,knee:46,hem:42,col:'#E5452F',dash:''},
              wd:{waist:80,hip:112,thigh:72,knee:58,hem:56,col:'#3B45D1',dash:'2.2 1.4'},
-             tp:{waist:80,hip:108,thigh:66,knee:42,hem:34,col:'#E5452F',dash:'.6 1.2'} };
+             tp:{waist:80,hip:108,thigh:66,knee:42,hem:34,col:'#7B5BD6',dash:'.6 1.2'} };
 function outlinePts(m, L){
   var W=m.waist/4, H=m.hip/4, oc=m.thigh/2, kn=m.knee/2+2, hm=m.hem/2+2, r=29, ky=r+34*L/76, hy=r+L;
   var right=[[W,0],[H,20],[oc,r],[kn,ky],[hm,hy],[2,hy],[2,ky],[0,r+2]];
@@ -692,8 +695,8 @@ function sizeCanvas(){
 }
 function grid(){
   ctx.save(); ctx.lineWidth = .08;
-  for (var x=-35; x<=35; x+=5){ ctx.strokeStyle = (x%25===0)?'rgba(89,96,121,.38)':'rgba(89,96,121,.16)'; ctx.beginPath(); ctx.moveTo(x,VB.y); ctx.lineTo(x,VB.y+VB.h); ctx.stroke(); }
-  for (var y=-5; y<=110; y+=5){ ctx.strokeStyle = (y%25===0)?'rgba(89,96,121,.38)':'rgba(89,96,121,.16)'; ctx.beginPath(); ctx.moveTo(VB.x,y); ctx.lineTo(VB.x+VB.w,y); ctx.stroke(); }
+  for (var x=-40; x<=40; x+=5){ ctx.strokeStyle = (x%25===0)?'rgba(89,96,121,.38)':'rgba(89,96,121,.16)'; ctx.beginPath(); ctx.moveTo(x,VB.y); ctx.lineTo(x,VB.y+VB.h); ctx.stroke(); }
+  for (var y=-10; y<=110; y+=5){ ctx.strokeStyle = (y%25===0)?'rgba(89,96,121,.38)':'rgba(89,96,121,.16)'; ctx.beginPath(); ctx.moveTo(VB.x,y); ctx.lineTo(VB.x+VB.w,y); ctx.stroke(); }
   ctx.restore();
 }
 function sampleStrokes(){
